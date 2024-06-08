@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"io"
 	"os"
@@ -9,11 +10,13 @@ import (
 )
 
 func main() {
+	key := flag.Int("key", 1, "Key to use for encypher")
+	flag.Parse()
 	plaintext, err := io.ReadAll(os.Stdin)
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err)
 		os.Exit(1)
 	}
-	ciphertext := shift.Encipher(plaintext)
+	ciphertext := shift.Encipher(byte(*key), plaintext)
 	os.Stdout.Write(ciphertext)
 }
