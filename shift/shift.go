@@ -9,3 +9,7 @@ func Encipher(key byte, plaintext []byte) []byte {
 	}
 	return b
 }
+
+func Decipher(key byte, ciphertext []byte) []byte {
+	return Encipher(-key, ciphertext)
+}
