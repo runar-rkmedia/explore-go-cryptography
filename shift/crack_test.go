@@ -1,6 +1,7 @@
 package shift_test
 
 import (
+	"bytes"
 	"fmt"
 	"testing"
 
@@ -17,7 +18,7 @@ func TestCrack(t *testing.T) {
 			if err != nil {
 				t.Fatal(err)
 			}
-			if tc.key != got {
+			if !bytes.Equal(tc.key, got) {
 				t.Fatalf("want %d, got %d", tc.key, got)
 			}
 		})

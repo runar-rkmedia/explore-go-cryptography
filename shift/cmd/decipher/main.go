@@ -17,6 +17,6 @@ func main() {
 		fmt.Fprintln(os.Stderr, err)
 		os.Exit(1)
 	}
-	plaintext := shift.Decipher(byte(*key), ciphertext)
+	plaintext := shift.Decipher([]byte{byte(*key)}, ciphertext)
 	os.Stdout.Write(plaintext)
 }

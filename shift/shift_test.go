@@ -9,63 +9,73 @@ import (
 )
 
 var tcs = []struct {
-	key                   byte
+	key                   []byte
 	plaintext, ciphertext []byte
 }{
 	{
-		key:        1,
+		key:        []byte{1},
 		plaintext:  []byte("HAL"),
 		ciphertext: []byte("IBM"),
 	},
 	{
-		key:        2,
+		key:        []byte{2},
 		plaintext:  []byte("SPEC"),
 		ciphertext: []byte("URGE"),
 	},
 	{
-		key:        3,
+		key:        []byte{3},
 		plaintext:  []byte("PERK"),
 		ciphertext: []byte("SHUN"),
 	},
 	{
-		key:        4,
+		key:        []byte{4},
 		plaintext:  []byte("GEL"),
 		ciphertext: []byte("KIP"),
 	},
 	{
-		key:        7,
+		key:        []byte{7},
 		plaintext:  []byte("CHEER"),
 		ciphertext: []byte("JOLLY"),
 	},
 	{
-		key:        10,
+		key:        []byte{10},
 		plaintext:  []byte("BEEF"),
 		ciphertext: []byte("LOOP"),
 	},
 	{
-		key:        1,
+		key:        []byte{1},
 		plaintext:  []byte("ADD"),
 		ciphertext: []byte("BEE"),
 	},
 	{
-		key:        1,
+		key:        []byte{1},
 		plaintext:  []byte("ANA"),
 		ciphertext: []byte("BOB"),
 	},
 	{
-		key:        1,
+		key:        []byte{1},
 		plaintext:  []byte("INKS"),
 		ciphertext: []byte("JOLT"),
 	},
 	{
-		key:        1,
+		key:        []byte{1},
 		plaintext:  []byte("ADMIX"),
 		ciphertext: []byte("BENJY"),
 	},
 	{
-		key:        1,
+		key:        []byte{1},
 		plaintext:  []byte{0, 1, 2, 3, 255},
 		ciphertext: []byte{1, 2, 3, 4, 0},
+	},
+	{
+		key:        []byte{1, 2, 3},
+		plaintext:  []byte{0, 0, 0},
+		ciphertext: []byte{1, 2, 3},
+	},
+	{
+		key:        []byte{1, 2},
+		plaintext:  []byte{0, 1, 2},
+		ciphertext: []byte{1, 3, 3},
 	},
 }
 
