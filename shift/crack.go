@@ -5,11 +5,21 @@ import (
 	"errors"
 )
 
-func Crack(ciphertext []byte, crib []byte) ([]byte, error) {
-	for i := range 256 {
-		v := Decipher([]byte{byte(i)}, ciphertext)
-		if bytes.HasPrefix(v, crib) {
-			return []byte{byte(i)}, nil
+const (
+	MaxKeyLen = 32
+)
+
+func Crack(ciphertext []byte, crib []byte) (key []byte, err error) {
+	for k := range min(MaxKeyLen, len(ciphertext), len(crib)) {
+		for guess := range 256 {
+			result := ciphertext[k] - byte(guess)
+			if result == crib[k] {
+				key = append(key, byte(guess))
+				break
+			}
+		}
+		if len(key) > 0 && bytes.Equal(crib, Decipher(key, ciphertext[:len(crib)])) {
+			return key, nil
 		}
 	}
 	return nil, errNotFound

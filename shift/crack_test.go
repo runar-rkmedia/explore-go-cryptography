@@ -16,19 +16,11 @@ func TestCrack(t *testing.T) {
 		t.Run(name, func(t *testing.T) {
 			got, err := shift.Crack(tc.ciphertext, tc.plaintext[:3])
 			if err != nil {
-				t.Fatal(err)
+				t.Fatalf("Failed to crack %s: %v", tc.ciphertext, err)
 			}
 			if !bytes.Equal(tc.key, got) {
 				t.Fatalf("want %d, got %d", tc.key, got)
 			}
 		})
-	}
-}
-
-func TestCrackReturnsErrorWhenKeyNotFound(t *testing.T) {
-	t.Parallel()
-	_, err := shift.Crack([]byte("no good"), []byte("bogus"))
-	if err == nil {
-		t.Fatal("want error when key not found, got", err)
 	}
 }

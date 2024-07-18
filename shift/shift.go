@@ -1,17 +1,22 @@
 package shift
 
 func Encipher(key []byte, plaintext []byte) []byte {
-	b := make([]byte, len(plaintext))
-
-	// return nil
-	l := len(key)
-	for i, v := range plaintext {
-		b[i] = v + key[i%l]
+	ciphertext := make([]byte, len(plaintext))
+	length := len(key)
+	for i, b := range plaintext {
+		ciphertext[i] = b + key[i%length]
 	}
-	return b
+	return ciphertext
 }
 
 func Decipher(key []byte, ciphertext []byte) []byte {
-	return nil
-	// return Encipher(-key, ciphertext)
+	plaintext := make([]byte, len(ciphertext))
+	length := len(key)
+	if length == 0 {
+		panic("NO KEY SPECIFIED")
+	}
+	for i, b := range ciphertext {
+		plaintext[i] = b - key[i%length]
+	}
+	return plaintext
 }

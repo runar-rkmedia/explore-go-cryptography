@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/hex"
 	"flag"
 	"fmt"
 	"io"
@@ -10,13 +11,19 @@ import (
 )
 
 func main() {
-	key := flag.Int("key", 1, "Key to use for decipher")
+	keyStr := flag.String("key", "01", "Key to use for encypher in hex form")
 	flag.Parse()
+	key, err := hex.DecodeString(*keyStr)
+	if err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		os.Exit(1)
+	}
 	ciphertext, err := io.ReadAll(os.Stdin)
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err)
 		os.Exit(1)
 	}
-	plaintext := shift.Decipher([]byte{byte(*key)}, ciphertext)
+	plaintext := shift.Decipher(key, ciphertext)
 	os.Stdout.Write(plaintext)
+	// fmt.Println("ciphertext", string(ciphertext), string(plaintext), len(plaintext))
 }
