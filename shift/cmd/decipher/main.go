@@ -11,7 +11,7 @@ import (
 )
 
 func main() {
-	keyStr := flag.String("key", "01", "Key to use for encypher in hex form")
+	keyStr := flag.String("key", "01", "Key to use in hex form")
 	flag.Parse()
 	key, err := hex.DecodeString(*keyStr)
 	if err != nil {
