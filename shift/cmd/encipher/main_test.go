@@ -27,6 +27,7 @@ func runDecrypt(reader io.Reader, args ...string) ([]byte, error) {
 var testkey = "0101010101010101010101010101010101010101010101010101010101010101"
 
 func TestCliEncipherRequireKey(t *testing.T) {
+	t.Parallel()
 	var err error
 	out, err := runEncrypt(nil)
 	if err == nil {
@@ -38,6 +39,7 @@ func TestCliEncipherRequireKey(t *testing.T) {
 }
 
 func TestCliEncipherReportShortKey(t *testing.T) {
+	t.Parallel()
 	var err error
 	out, err := runEncrypt(nil, "-key", "12345678")
 	if err == nil {
@@ -52,6 +54,7 @@ func TestCliEncipherReportShortKey(t *testing.T) {
 }
 
 func TestCliEncipherWorksForSimpleCases(t *testing.T) {
+	t.Parallel()
 	plainTexts := [][]byte{
 		[]byte("foobar"),
 		[]byte(""),

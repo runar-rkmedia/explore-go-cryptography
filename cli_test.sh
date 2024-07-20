@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-testkey="deaddeaddeaddeaddeaddeaddeaddeaddeaddeaddeaddeaddeaddeaddeaddead"
+# testkey="deaddeaddeaddeaddeaddeaddeaddeaddeaddeaddeaddeaddeaddeaddeaddead"
+testkey="0001000000000000000000000000000000000000000000000000000000000000"
 encipher="go run ./shift/cmd/encipher/main.go"
 decipher="go run ./shift/cmd/decipher/main.go"
 crack="go run ./shift/cmd/crack/main.go"
@@ -28,6 +29,14 @@ for i in "${!testMessages[@]}"; do
   fi
 
 
-# echo "${encrypted}" | base64 -d | $crack -crib This 
+echo "Cracking... this might take a while..."
+cracked=$(echo "${encrypted}" | base64 -d | $crack -crib "${plaintext}")
+echo "Cracked: '${cracked}'"
+  if [ "${cracked}" == "${plaintext}" ] ; then
+    echo "[Encipher -> Crack] Success!"
+  else 
+    echo "[Encipher -> Crack] Failure!"
+    exit 1
+  fi
 done
 

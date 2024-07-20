@@ -30,17 +30,21 @@ func main() {
 		os.Exit(1)
 	}
 	plaintext := make([]byte, len(ciphertext))
-	c, err := shift.NewShiftCipher(key)
+	block, err := shift.NewShiftCipher(key)
 	if err != nil {
 		os.Stdout.WriteString(err.Error())
 		os.Exit(1)
 	}
+	if *outputKey {
+		os.Stdout.Write([]byte(hex.EncodeToString(key)))
+		os.Exit(0)
+	}
+	mode := shift.NewDecrypter(block)
+	mode.CryptBlocks(plaintext, ciphertext)
+	plaintext = shift.Unpad(plaintext)
 	if *detailed {
 		os.Stdout.WriteString("Key\t" + hex.EncodeToString(key))
-		c.Decrypt(plaintext, ciphertext)
 		os.Stdout.WriteString("Plaintext:\n" + string(plaintext))
-	} else if *outputKey {
-		os.Stdout.Write([]byte(hex.EncodeToString(key)))
 	} else {
 		os.Stdout.Write(plaintext)
 	}
