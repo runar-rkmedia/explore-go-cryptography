@@ -7,29 +7,29 @@ import (
 	"github.com/runar-rkmedia/explore-go-cryptography/shift"
 )
 
-func Test_EncrypterEncipheresBlockAlignedMessage(t *testing.T) {
+func Test_DecrypterDecryptsBlockAlignedMessage(t *testing.T) {
 	t.Parallel()
-	plaintext := []byte("This message is exactly 32 bytes")
+	ciphertext := []byte("Uijt!nfttbhf!jt!fybdumz!43!czuft")
 	block, err := shift.NewShiftCipher(testKey)
 	if err != nil {
 		t.Fatal(err)
 	}
-	enc := shift.NewEncrypter(block)
-	want := []byte("Uijt!nfttbhf!jt!fybdumz!43!czuft")
+	enc := shift.NewDecrypter(block)
+	want := []byte("This message is exactly 32 bytes")
 	got := make([]byte, 32)
-	enc.CryptBlocks(got, plaintext)
+	enc.CryptBlocks(got, ciphertext)
 	if !bytes.Equal(want, got) {
 		t.Errorf("want %v, got %v", want, got)
 	}
 }
 
-func Test_EncrypterCorrectlyReportsBlockSize(t *testing.T) {
+func Test_DecrypterCorrectlyReportsBlockSize(t *testing.T) {
 	t.Parallel()
 	block, err := shift.NewShiftCipher(testKey)
 	if err != nil {
 		t.Fatal(err)
 	}
-	enc := shift.NewEncrypter(block)
+	enc := shift.NewDecrypter(block)
 	want := shift.BlockSize
 	got := enc.BlockSize()
 	if got != want {

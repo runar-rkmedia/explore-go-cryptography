@@ -32,8 +32,9 @@ func main() {
 		os.Exit(1)
 	}
 
-	ciphertext := make([]byte, len(plaintext))
 	enc := shift.NewEncrypter(c)
+	plaintext = shift.Pad(plaintext, enc.BlockSize())
+	ciphertext := make([]byte, len(plaintext))
 	enc.CryptBlocks(ciphertext, plaintext)
 	if *outputb64url {
 		os.Stdout.WriteString(base64.URLEncoding.EncodeToString(ciphertext))

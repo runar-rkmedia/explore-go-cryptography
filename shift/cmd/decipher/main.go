@@ -20,7 +20,7 @@ func main() {
 		fmt.Fprintln(os.Stderr, err)
 		os.Exit(1)
 	}
-	c, err := shift.NewShiftCipher(key)
+	block, err := shift.NewShiftCipher(key)
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err)
 		os.Exit(1)
@@ -39,7 +39,10 @@ func main() {
 		}
 		ciphertext = ciphertext[:l]
 	}
+	dec := shift.NewDecrypter(block)
 	plaintext := make([]byte, len(ciphertext))
-	c.Decrypt(plaintext, ciphertext)
+	// block.Decrypt(plaintext, ciphertext)
+	dec.CryptBlocks(plaintext, ciphertext)
+	plaintext = shift.Unpad(plaintext)
 	os.Stdout.Write(plaintext)
 }
