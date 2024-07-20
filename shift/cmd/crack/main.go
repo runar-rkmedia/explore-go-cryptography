@@ -29,15 +29,19 @@ func main() {
 		fmt.Printf("Failed to crack: %v\n", err)
 		os.Exit(1)
 	}
+	plaintext := make([]byte, len(ciphertext))
+	c, err := shift.NewShiftCipher(key)
+	if err != nil {
+		os.Stdout.WriteString(err.Error())
+		os.Exit(1)
+	}
 	if *detailed {
 		os.Stdout.WriteString("Key\t" + hex.EncodeToString(key))
-		plaintext := shift.Decipher(key, ciphertext)
+		c.Decrypt(plaintext, ciphertext)
 		os.Stdout.WriteString("Plaintext:\n" + string(plaintext))
 	} else if *outputKey {
 		os.Stdout.Write([]byte(hex.EncodeToString(key)))
 	} else {
-		plaintext := shift.Decipher(key, ciphertext)
 		os.Stdout.Write(plaintext)
-
 	}
 }

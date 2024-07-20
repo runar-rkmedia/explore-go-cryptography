@@ -21,12 +21,20 @@ func main() {
 		fmt.Fprintln(os.Stderr, err)
 		os.Exit(1)
 	}
+	c, err := shift.NewShiftCipher(key)
+	if err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		os.Exit(1)
+	}
 	plaintext, err := io.ReadAll(os.Stdin)
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err)
 		os.Exit(1)
 	}
-	ciphertext := shift.Encipher(key, plaintext)
+
+	ciphertext := make([]byte, len(plaintext))
+	enc := shift.NewEncrypter(c)
+	enc.CryptBlocks(ciphertext, plaintext)
 	if *outputb64url {
 		os.Stdout.WriteString(base64.URLEncoding.EncodeToString(ciphertext))
 	} else if *outputb64 {

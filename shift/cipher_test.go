@@ -91,35 +91,6 @@ var tcs = []struct {
 	},
 }
 
-func TestEncipher(t *testing.T) {
-	t.Parallel()
-
-	for _, tc := range tcs {
-		name := fmt.Sprintf("%s + %d to %s", tc.plaintext, tc.key, tc.ciphertext)
-		t.Run(name, func(t *testing.T) {
-			got := shift.Encipher(tc.key, tc.plaintext)
-			if !bytes.Equal(tc.ciphertext, got) {
-				t.Errorf("shift.Encipher(%s) want %q, got %q", tc.plaintext, tc.ciphertext, got)
-			}
-		})
-
-	}
-}
-
-func TestDecipher(t *testing.T) {
-	t.Parallel()
-	for _, tc := range tcs {
-		name := fmt.Sprintf("%s - %d = %s", tc.plaintext, tc.key, tc.ciphertext)
-		t.Run(name, func(t *testing.T) {
-			got := shift.Decipher(tc.key, tc.ciphertext)
-			if !bytes.Equal(tc.plaintext, got) {
-				t.Errorf("shift.Decipher(%s) want %q, got %q", tc.plaintext, tc.ciphertext, got)
-			}
-		})
-
-	}
-}
-
 func TestNewCipher_GivesErrorForEmptyKey(t *testing.T) {
 	t.Parallel()
 	_, err := shift.NewShiftCipher([]byte{})
