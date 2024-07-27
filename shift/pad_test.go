@@ -50,7 +50,7 @@ func Test_Pad(t *testing.T) {
 
 func Test_Unap(t *testing.T) {
 	for _, tt := range padCases {
-		got := shift.Unpad(tt.padded)
+		got := shift.Unpad(tt.padded, 4)
 		if !bytes.Equal(tt.raw, got) {
 			t.Fatalf("want %d, got %d", tt.raw, got)
 		}

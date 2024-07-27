@@ -29,7 +29,10 @@ func Test_EncrypterCorrectlyReportsBlockSize(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	enc := shift.NewEncrypter(block)
+	enc, _, err := shift.NewCBCEncryptorEncrypterWithRandomIV(block)
+	if err != nil {
+		t.Fatal(err)
+	}
 	want := shift.BlockSize
 	got := enc.BlockSize()
 	if got != want {

@@ -2,6 +2,7 @@ package shift
 
 import (
 	"crypto/cipher"
+	"crypto/rand"
 )
 
 type encrypter struct {
@@ -32,6 +33,24 @@ func (e encrypter) CryptBlocks(dst []byte, src []byte) {
 	}
 }
 
-func NewEncrypter(block cipher.Block) *encrypter {
+// Deprecated
+func NewEncrypter(block cipher.Block) cipher.BlockMode {
 	return &encrypter{block: block, blockSize: block.BlockSize()}
+}
+
+func NewCBCEncryptorEncrypterWithRandomIV(block cipher.Block) (cipher.BlockMode, []byte, error) {
+	iv := make([]byte, block.BlockSize())
+	_, err := rand.Read(iv)
+	if err != nil {
+		return nil, nil, err
+	}
+	return cipher.NewCBCEncrypter(block, iv), iv, nil
+}
+
+func NewShiftCBCEncryptorEncrypterWithRandomIV(key []byte) (cipher.BlockMode, []byte, error) {
+	block, err := NewShiftCipher(key)
+	if err != nil {
+		return nil, nil, err
+	}
+	return NewCBCEncryptorEncrypterWithRandomIV(block)
 }

@@ -96,4 +96,9 @@ Temporary Items
 ### macOS Patch ###
 # iCloud generated files
 *.icloud
-
+enciphered.bin
+devil.ppm
+devil.ppm.bin
+header.txt
+imgdata.txt
+test.ppm

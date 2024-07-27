@@ -1,13 +1,15 @@
 package shift
 
-import "bytes"
+import (
+	"bytes"
+)
 
 func Pad(input []byte, blockSize int) []byte {
 	padding := blockSize - (len(input) % blockSize)
 	return append(input, bytes.Repeat([]byte{byte(padding)}, padding)...)
 }
 
-func Unpad(input []byte) []byte {
+func Unpad(input []byte, blockSize int) []byte {
 	padding := int(input[len(input)-1])
 	return input[:len(input)-padding]
 }
